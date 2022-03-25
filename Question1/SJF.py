@@ -2,15 +2,17 @@ import random
 import csv
 import os
 
+# This function set a random burst time and memory requirement based on parameters passed into randint
 def runTimeRequirementsEva():
   burstTime = random.randint(10*10**6, 10*10**12)
   memoryRequirement = random.randint(1,16)
   return [burstTime, memoryRequirement]
   
+# calculates burst time given the data -> csv_reader
 def BurstTime(csv_reader):
   TTRS = []
-  TTR = 0
-  it = 0
+  TTR = 0 
+  # number represents us incrementally adding the process cycles. each addition is then appended into TTRS 
   for process in csv_reader:
     if process != "Bursttime":
       TTR+=int(process)
@@ -20,6 +22,8 @@ def BurstTime(csv_reader):
 def waitTime(csv_reader):
   Wait_Times = []
   Wait_Time = 0
+  # number represents us incrementally adding the process cycles. each addition is then appended into Wait_Times. 
+  # But based on the concept of wait time we will start by appending 0, then add then rest as opposed to burst time 
   for process in csv_reader:
     if process != "Bursttime":
       Wait_Times.append(Wait_Time)
