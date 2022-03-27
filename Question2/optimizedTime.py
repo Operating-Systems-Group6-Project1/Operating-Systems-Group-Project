@@ -55,6 +55,7 @@ def process():
                 ):  # This is where the data is read from the CSV files and allocated into an array
                     csv_readerVal.append(int(process[0]))
                     size+=1
+            csv_readerVal.sort()
             burstTime1 = BurstTime(
                 csv_readerVal[:math.floor(size/2)]
             )  # csv_readerVal is then passed into ButstTime function and waitTime function to compute the burst time and wait time

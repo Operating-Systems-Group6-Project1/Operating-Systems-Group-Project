@@ -55,8 +55,11 @@ def process():
             csv_readerValmemorySlot3 = []
             size1 = 0
             size2 = 0
-            size3 = 0
+            csv_readerVal = []
             for process in csv_reader:
+                csv_readerVal.append(process)
+            csv_readerVal.sort()
+            for process in csv_readerVal:
                 if (
                     process[0] != "Bursttime" and
                     int(process[1]) == 8
