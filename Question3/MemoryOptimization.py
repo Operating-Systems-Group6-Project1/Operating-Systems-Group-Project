@@ -3,9 +3,12 @@ import csv
 import os
 import math
 # This function set a random burst time and memory requirement based on parameters passed into randint
-def runTimeRequirementsEva():
+def runTimeRequirementsEva(size, it):
     burstTime = random.randint(10 * 10**6, 10 * 10**12)
-    memoryRequirement = random.randint(1, 16)
+    if it < size/2:
+        memoryRequirement = 8
+    elif it > size/2:
+        memoryRequirement = 8
     return [burstTime, memoryRequirement]
 
 
@@ -36,12 +39,12 @@ def waitTime(csv_reader):
 def process():
     # This checks if the CSV file is empty, and if that is the case it fill that data by CSV write.
     if os.stat("runTimeRequirements.csv").st_size == 0:
-        print("exec")
-        with open("runTimeRequirements.csv", "w", newline="") as csv_file:
+        size = 249
+        with open("runTimeRequirements.csv", "w") as csv_file:
             csv_writer = csv.writer(csv_file)
             csv_writer.writerow(["Bursttime", "Memory"])
-            for i in range(249):
-                csv_writer.writerow(runTimeRequirementsEva())
+            for i in range(size):
+                csv_writer.writerow(runTimeRequirementsEva(i,size))
     else:
         # This will execute if and only if the CSV file is already files with the data
         with open("runTimeRequirements.csv", "r") as csv_file:
@@ -66,9 +69,6 @@ def process():
                 ):
                     csv_readerValmemorySlot2.append(int(process[0]))
                     size2+=1
-                elif(process[0] != "Bursttime"):
-                    csv_readerValmemorySlot3.append(int(process[0]))
-                    size3+=1
             burstTime1 = BurstTime(
                 csv_readerValmemorySlot1
             )  # csv_readerVal is then passed into ButstTime function and waitTime function to compute the burst time and wait time
@@ -79,11 +79,7 @@ def process():
             )  # csv_readerVal is then passed into ButstTime function and waitTime function to compute the burst time and wait time
             write_Times2 = waitTime(csv_readerValmemorySlot2)
 
-            burstTime3 = BurstTime(
-                csv_readerValmemorySlot3
-            )  # csv_readerVal is then passed into ButstTime function and waitTime function to compute the burst time and wait time
-            write_Times3 = waitTime(csv_readerValmemorySlot3)
-        return burstTime1, write_Times1, burstTime2, write_Times2, burstTime3, write_Times3
+        return burstTime1, write_Times1, burstTime2, write_Times2
 
 
 def runTimeRequirementsEvaCalc():
@@ -94,15 +90,13 @@ def runTimeRequirementsEvaCalc():
     TTRS2 = process()[2]  
     Wait_Times2 = process()[3]
 
-    TTRS3 = process()[4]  
-    Wait_Times3 = process()[5]
+
 
     AVGTTRS = 0
     AVG_Wait_Time = 0
     AVGTTRS2 = 0
     AVG_Wait_Time2 = 0
-    AVGTTRS3 = 0
-    AVG_Wait_Time3 = 0
+
 
     for TTR in TTRS:
         AVGTTRS += TTR
@@ -114,21 +108,16 @@ def runTimeRequirementsEvaCalc():
     for Wait_Time2 in Wait_Times2:
         AVG_Wait_Time2 += Wait_Time2
 
-    for TTR3 in TTRS3:
-        AVGTTRS3 += TTR3
-    for Wait_Time3 in Wait_Times3:
-        AVG_Wait_Time3 += Wait_Time3
-    
+
     AVGTTRS /= len(TTRS) + 1
     AVG_Wait_Time /= len(Wait_Times)
 
     AVGTTRS2 /= len(TTRS2) + 1
     AVG_Wait_Time2 /= len(Wait_Times2)
 
-    AVGTTRS3 /= len(TTRS3) + 1
-    AVG_Wait_Time3 /= len(Wait_Times3)
 
-    return AVGTTRS, AVGTTRS2,  AVG_Wait_Time, AVG_Wait_Time2, AVGTTRS3, AVG_Wait_Time3
+
+    return AVGTTRS, AVGTTRS2,  AVG_Wait_Time, AVG_Wait_Time2
 
 
 def main():
@@ -136,14 +125,11 @@ def main():
     AVG_Wait_Time = runTimeRequirementsEvaCalc()[1]
     AVGTTRS2 = runTimeRequirementsEvaCalc()[2]
     AVG_Wait_Time2 = runTimeRequirementsEvaCalc()[3]
-    AVGTTRS3 = runTimeRequirementsEvaCalc()[4]
-    AVG_Wait_Time3 = runTimeRequirementsEvaCalc()[5]
+
     print("The average turn around time with running with 8GB = %f" % AVGTTRS)
     print("The average wait time with 8GB = %f" % AVG_Wait_Time)
     print("The average turn around time with 16GB = %f" % AVGTTRS2)
     print("The average wait time with 16GB = %f" % AVG_Wait_Time2)
-    print("The average turn around time with no restriction = %f" % AVGTTRS3)
-    print("The average wait time with no restriction = %f" % AVG_Wait_Time3)
 
 if __name__ == "__main__":
     main()
