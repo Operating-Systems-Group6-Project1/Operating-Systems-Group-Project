@@ -96,8 +96,6 @@ def TTR_And_WaitTimeCals():
 
     for F_process in range(len(TTR)-1):
         AVGWaitTime += int(TTR[F_process])
-    AVGTTR /= len(TTR)
-    AVGWaitTime /= len(TTR)
     return AVGTTR, AVGWaitTime
 
 def main():
