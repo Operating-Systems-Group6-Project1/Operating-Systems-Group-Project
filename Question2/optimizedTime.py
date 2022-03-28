@@ -56,15 +56,16 @@ def process():
                     csv_readerVal.append(int(process[0]))
                     size+=1
             csv_readerVal.sort()
+            csv_readerVal[:int(math.floor(size/2))]
             burstTime1 = BurstTime(
-                csv_readerVal[:math.floor(size/2)]
+                csv_readerVal[:int(math.floor(size/2))]
             )  # csv_readerVal is then passed into ButstTime function and waitTime function to compute the burst time and wait time
-            write_Times1 = waitTime(csv_readerVal[:math.floor(size/2)])
+            write_Times1 = waitTime(csv_readerVal[:int(math.floor(size/2))])
 
             burstTime2 = BurstTime(
-                csv_readerVal[math.floor(size/2):]
+                csv_readerVal[int(math.floor(size/2)):]
             )  # csv_readerVal is then passed into ButstTime function and waitTime function to compute the burst time and wait time
-            write_Times2 = waitTime(csv_readerVal[math.floor(size/2):])
+            write_Times2 = waitTime(csv_readerVal[int(math.floor(size/2)):])
         return burstTime1, write_Times1, burstTime2, write_Times2 
 
 
@@ -94,7 +95,7 @@ def runTimeRequirementsEvaCalc():
     AVGTTRS /= 2
     AVGTTRS2 /= 4
     AVG_Wait_Time /= 2
-    AVG_Wait_Time /= 4
+    AVG_Wait_Time2 /= 4
 
     AVGTTRS /= len(TTRS) + 1
     AVG_Wait_Time /= len(Wait_Times)
